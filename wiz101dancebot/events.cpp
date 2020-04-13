@@ -51,8 +51,8 @@ void events::event_score_continue() {
 	if (events::testing) {
 		printf("Events score continue called!\n");
 	}
-	mouse_move_double(((65535 / 1920)*(900 + getRandNum(0, 120))), ((65535 / 1080)* (315 + getRandNum(0, 15))));
-	mouse_move_double(((65535 / 1920)*(900 + getRandNum(0, 120))), ((65535 / 1080)* (315 + getRandNum(0, 15))));
+	mouse_move_double(((65535 / 1920) * (900 + getRandNum(0, 120))), ((65535 / 1080) * (315 + getRandNum(0, 15))));
+	mouse_move_double(((65535 / 1920) * (900 + getRandNum(0, 120))), ((65535 / 1080) * (315 + getRandNum(0, 15))));
 	Sleep(1500);
 }
 
@@ -60,8 +60,8 @@ void events::event_play_continue() {
 	if (events::testing) {
 		printf("Events play continue called!\n");
 	}
-	mouse_move_double(((65535 / 1920)*(900 + getRandNum(0, 100))), ((65535 / 1080)* (781 + getRandNum(0, 24))));
-	mouse_move_double(((65535 / 1920)*(900 + getRandNum(0, 100))), ((65535 / 1080)* (781 + getRandNum(0, 24))));
+	mouse_move_double(((65535 / 1920) * (900 + getRandNum(0, 100))), ((65535 / 1080) * (781 + getRandNum(0, 24))));
+	mouse_move_double(((65535 / 1920) * (900 + getRandNum(0, 100))), ((65535 / 1080) * (781 + getRandNum(0, 24))));
 	Sleep(1000);
 }
 
@@ -70,8 +70,8 @@ void events::event_game_end() {
 	if (events::testing) {
 		printf("Events game end called!\n");
 	}
-	mouse_move_double(((65535 / 1920)*(1305 + getRandNum(0, 30))), ((65535 / 1080)* (785 + getRandNum(0, 30))));
-	mouse_move_double(((65535 / 1920)*(1305 + getRandNum(0, 30))), ((65535 / 1080)* (785 + getRandNum(0, 30))));
+	mouse_move_double(((65535 / 1920) * (1305 + getRandNum(0, 30))), ((65535 / 1080) * (785 + getRandNum(0, 30))));
+	mouse_move_double(((65535 / 1920) * (1305 + getRandNum(0, 30))), ((65535 / 1080) * (785 + getRandNum(0, 30))));
 	Sleep(5000);
 }
 
@@ -87,7 +87,7 @@ void events::event_anti_afk() {
 			printf("Pressed L!\n");
 		}
 		INPUT input;
-		WORD leftkey = VK_LEFT; 
+		WORD leftkey = VK_LEFT;
 		input.type = INPUT_KEYBOARD;
 		input.ki.wScan = MapVirtualKey(leftkey, MAPVK_VK_TO_VSC);
 		input.ki.time = 0;
@@ -135,8 +135,8 @@ void events::event_click_conj() {
 	if (events::testing) {
 		printf("Event Click Conj called!\n");
 	}
-	mouse_move_double(((65535 / 1920)*(1130 + getRandNum(0, 45))), ((65535 / 1080)* (400 + getRandNum(0, 80))));
-	mouse_move_double(((65535 / 1920)*(1135 + getRandNum(0, 45))), ((65535 / 1080)* (400 + getRandNum(0, 80))));
+	mouse_move_double(((65535 / 1920) * (1130 + getRandNum(0, 45))), ((65535 / 1080) * (400 + getRandNum(0, 80))));
+	mouse_move_double(((65535 / 1920) * (1135 + getRandNum(0, 45))), ((65535 / 1080) * (400 + getRandNum(0, 80))));
 }
 
 void events::event_game_start() {

@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 
-#define TIER_ONE_SCORE_MIN 6200
+#define TIER_ONE_SCORE_MIN 13000
 #define STD_DELAY 5000
 #define MAX_COLOUMN 7
 #define MAX_ROW 6
@@ -25,7 +25,7 @@ using namespace std;
 // CurrentRow, CurrentColumn, CurrentTime, CurrentScore, CurrentLevel, BaseRowColumn
 const int offsets[30] = { (int)(0x00003964), ((int)0x0000266C), 0, (int)0x1F14, (int)0x1EF8, (int)0x9200, };
 
-const int rowOffsetForRound[10] = {2,1,1,2,1,0,1,0,0,};
+const int rowOffsetForRound[10] = { 2,1,1,2,1,0,1,0,0, };
 const int columnOffsetForRound[10] = { 2,2,2,0,1,1,1,1,0 };
 DWORD ProcessID;
 int numGamesSinceReset = 14;
@@ -41,9 +41,9 @@ events evgen = events::events();
 // 75 - Invalidated
 // 90 - Valid?
 // 210 - Valid
- 
-int speed = 200;
-bool errors = true;
+
+int speed = 300;
+bool errors = false;
 bool scoreDecision(int score) {
 	return score < TIER_ONE_SCORE_MIN;
 }
@@ -208,11 +208,11 @@ void click(int x, int y) {
 	// This function takes in positions on the board and sends hardware events ("clicks");
 	// Find location
 
-	//printf("click card %d %d \t", x, y);
+	printf("click card %d %d\n", x, y);
 	int basex = 789;
 	int basey = 349;
-	int bx = basex + (y * 64) + getRandNum(10, 44);
-	int by = basey + (x * 64) + getRandNum(10, 44);
+	int bx = basex + (y * 72) + getRandNum(0, 15);
+	int by = basey + (x * 72) + getRandNum(0, 15);
 	bx = bx * (65535 / 1920);
 	by = by * (65535 / 1080);
 	//printf("click cord %d %d \n", bx, by);
@@ -257,9 +257,10 @@ void findPairs(HANDLE w101) {
 		printf("WARNING: Incomplete board detected, please input 0,0 location offsets.\n");
 		int round = readAddress(w101, offsets[4]);
 		round = getRound(round);
+
 		offrow = rowOffsetForRound[round];
 		offcol = columnOffsetForRound[round];
-		printf("Round %d detected. %d %d", round, offrow, offcol);
+		printf("Round %d detected. %d %d\n", round, offrow, offcol);
 	}
 	// Now that we have the board, let's locate our cards (in range)
 	bool found;
@@ -275,37 +276,36 @@ void findPairs(HANDLE w101) {
 					// For right now, we're going to print the co-ordinates of where on the board our match is. 
 					// Later, we can make a clicking function.
 					if (!found) {
-						printf("Card %2d: ", i);
+						printf("Card %2d found!\n", i);
 						found = true;
 					}
+
+					DWORD seen_val = -1;
+					board[currentRow][currentColumn] = seen_val;
 					click(currentRow + offrow, currentColumn + offcol);
-					Sleep(speed + getRandNum(5, 10));
+					Sleep(speed + getRandNum(5, 60));
 				}
-				if (getRandNum(0, 5) == 1 && errors) {
+
+				int intentional_mistake = getRandNum(0, 4);
+				if (intentional_mistake == 1 && board[currentRow][currentColumn] > 0)
+				{
+					printf("Intentional Miss, spot value: %d\n", board[currentRow][currentColumn]);
 					// 8.4% chance of a misclick or random click 
-					click(currentColumn, currentRow);
+					click(currentRow + offrow, currentColumn + offcol);
+					Sleep(getRandNum(290, 530));
 				}
 			}
 		}
 		if (found) {
 			printf("\n");
 		}
-		if (errors)
-		{
-			for (int currentRow = 0; currentRow < numRow; currentRow++) {
-				for (int currentColumn = 0; currentColumn < numCol; currentColumn++) {
-					click(currentRow + offrow, currentColumn + offcol);
-				}
-			}
-		}
-		Sleep(20);
 	}
-	Sleep(1500);
+	Sleep(getRandNum(1500, 2200));
 }
 int main() {
 	evgen.setTestingTrue();
-	HWND wizard101 = FindWindow(NULL, "Wizard101");
-	
+	HWND wizard101 = FindWindowA(NULL, "Wizard101");
+
 	GetWindowThreadProcessId(wizard101, &ProcessID);
 	printf("Please enter the speed multiplier (delay): ");
 	scanf("%d", &speed);
@@ -320,15 +320,18 @@ int main() {
 		printf("Time: d // Row Count: %d // Column Count: %d // Current Level: %d // Current Score: %d // Games since delay: %d\n", readAddress(w101, offsets[0]), readAddress(w101, offsets[1]), readAddress(w101, offsets[4]), readAddress(w101, offsets[3]), numGamesSinceReset);
 		bool keepGoing = scoreDecision(readAddress(w101, offsets[3]));
 		if (keepGoing) {
+			printf("Finding pairs...\n");
 			findPairs(w101);
-		}else {
+		}
+		else {
+			printf("Game ending...\n");
 			// end the game
-			for (int i = 0; i < MAX_COLOUMN; i++) {
-				for (int j = 0; j < MAX_ROW; j++) {
-					click(i, j);
-				}
+			int random_end = getRandNum(0, 5);
+			for (int i = 0; i < random_end; i++) {
+				click(getRandNum(0, MAX_ROW - 1), getRandNum(0, MAX_COLOUMN - 1));
+				Sleep(getRandNum(400, 1900));
 			}
-			Sleep(STD_DELAY/5);
+			Sleep(STD_DELAY / 5);
 			// click the x button
 			evgen.event_game_end();
 			Sleep(STD_DELAY / 10);
@@ -337,7 +340,7 @@ int main() {
 			numGamesSinceReset++;
 			if (numGamesSinceReset >= GAMES_BEFORE_RESET) {
 				// Every 200 gold, we reset because of the afk script.
-				while (isModuleLoadedIn(ProcessID)){
+				while (isModuleLoadedIn(ProcessID)) {
 					// Wizard101 stacks windows when it glitches.
 					evgen.event_game_end();
 				}
