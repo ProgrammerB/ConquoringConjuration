@@ -1,7 +1,10 @@
-﻿  deepshock.cpp
-c:\users\federation\source\repos\conquoringconjuration\wiz101dancebot\deepshock.cpp(44): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\federation\source\repos\conquoringconjuration\wiz101dancebot\deepshock.cpp(69): warning C4101: 'CorrectAddress': unreferenced local variable
-c:\users\federation\source\repos\conquoringconjuration\wiz101dancebot\deepshock.cpp(276): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1272): note: see declaration of 'scanf'
-  wiz101dancebot.vcxproj -> C:\Users\Federation\Source\Repos\ConquoringConjuration\Debug\wiz101dancebot.exe
-  wiz101dancebot.vcxproj -> C:\Users\Federation\Source\Repos\ConquoringConjuration\Debug\wiz101dancebot.pdb (Partial PDB)
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(467,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (wiz101dancebot.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  stdafx.cpp
+  events.cpp
+C:\Users\Braxton Laster\source\repos\ProgrammerB\ConquoringConjuration\wiz101dancebot\events.cpp(29,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  deepshock.cpp
+C:\Users\Braxton Laster\source\repos\ProgrammerB\ConquoringConjuration\wiz101dancebot\deepshock.cpp(51,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Braxton Laster\source\repos\ProgrammerB\ConquoringConjuration\wiz101dancebot\deepshock.cpp(76,8): warning C4101: 'CorrectAddress': unreferenced local variable
+C:\Users\Braxton Laster\source\repos\ProgrammerB\ConquoringConjuration\wiz101dancebot\deepshock.cpp(311,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Generating Code...
+  wiz101dancebot.vcxproj -> C:\Users\Braxton Laster\Source\Repos\ProgrammerB\ConquoringConjuration\Debug\WizBot101.exe
